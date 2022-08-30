@@ -6,6 +6,7 @@
 #pip install pandas
 
 #importar o mysql.connector e o pandas para o projeto, a função Error foi importada separada para fácil acesso
+from unittest import result
 import mysql.connector
 from mysql.connector import Error
 import pandas as pd
@@ -253,4 +254,79 @@ pw= 'Pyth0n&SQLP@ss'
 #execute_query(connection, pop_designers)
 #execute_query(connection, pop_genres)
 
+#Leitura de dados
 
+import mysql.connector
+from mysql.connector import Error
+import pandas as pd
+
+def ready_query(connection, query):
+    cursor = connection.curso()
+    result = None
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except Error as err:
+        print(f'Error: {err}')
+    
+#Selecionar toda a tabela titles 
+q1 = """
+SELECT *
+FROM titles;
+"""
+connection = creste_db_connection("localhost","root",pw, db)
+results = ready_query(connection, q1)
+
+for result in results:
+    print(result)
+
+##Formatar resultado em uma lista
+#inicializa lista vazia
+from_db=[]
+
+#prcorrer os resultados e inseri-los á lista
+#Retorna uma lista de tuplas
+for result in results:
+    result = result
+    from_db.append(result)
+
+##Formatar resultado em uma lista de listas
+from_db = []
+
+for result in results:
+    result = list(result)
+    from_db.append(result)
+    
+print(from_db)
+
+##Formatar resultado em um DataFrame do Pandas
+#Retorna uma lista de lista e cria um DataFrame do Pandas
+from_db = []
+
+for result in results:
+    result = list(result)
+    from_db.append(result)
+
+columns = ['title_id', 'tile_name', 'author_name', 'kindle']
+df = pd.DataFrame(from_db, columns=columns)
+display(df)
+
+#Atualizar registros
+#Se executado sem o WHERE, todos os autores de todos o titulos serão alterados
+update="""
+UPDATE titles
+SET author = 'nome aleatório'
+WHERE title_id = 1;
+"""
+connection = create_db_connection('localhost', 'root', pw, db)
+execute_query(connection, update)
+
+#Apagar registro
+delete_title = """
+DELETE FROM titles
+WHERE title_ID = 1;
+"""
+
+connection = create_db_connection('localhost', 'root', pw, db)
+execute_query(connection, delete_title)
