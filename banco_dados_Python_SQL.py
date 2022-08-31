@@ -57,7 +57,7 @@ def create_db_connection(host_name,user_name,User_password, db_name):
         print(f'Error: {err}')
     return connection
 
-#garante que os comandao detalhados na consulta SQK sajam implementados
+#garante que os comandao detalhados na consulta SQL sajam implementados
 def execute_query(connection,query):
     cursor=connection.cursor()
     try:
@@ -67,34 +67,36 @@ def execute_query(connection,query):
     except Error as err:
         print(f'Error: {err}')
 
-create_titles_table = """"
+
+create_titles_table = """
 CREATE TABLE titles (
     title_id INT PRIMARY KEY,
     title_name VARCHAR(40) NOT NULL,
-    jp_title VARCHAR(100) NOT NULL,
-    genre_type VARHCAR (20),
-    abstract_title(500),    
-    publish_comp VARCHAR (50),
+    jp_title VARCHAR(40) NOT NULL,
+    genre_type VARCHAR(20),
+    abstract_title VARCHAR(100),    
+    publish_comp VARCHAR(50),
     released_chaps INT NOT NULL,
     author_name VARCHAR(40),
     designer_name VARCHAR (40),
     read_chaps INT,
     last_down_date DATE NOT NULL,
     kindle BOOLEAN,
-    status VARCHAR(15), NOT NULL
+    status VARCHAR(15) NOT NULL
     );
 """
+
 create_authors_table = """
-CREATE TABBLE authors (
+CREATE TABLE authors (
     author_id INT PRIMARY KEY,
-    author_name VARCHAR(40) NOT NULL,
+    author_name VARCHAR(40) NOT NULL
     );
 """
 
 create_designers_table = """
-CREATE TABBLE designers (
+CREATE TABLE designers (
     designer_id INT PRIMARY KEY,
-    designer_name VARCHAR(40) NOT NULL,
+    designer_name VARCHAR(40) NOT NULL
     );
 """
 
@@ -115,14 +117,8 @@ CREATE TABLE status (
 
 alter_titles = """
 ALTER TABLE titles
-ADD FOREING KEY(authors)
-REFERENCES authors(authors_id)
-ADD FOREING KEY(designers)
-REFERENCES designers(designers_id)
-ADD FOREING KEY(genres)
-REFERENCES genres(genres_id)
-ADD FOREING KEY(status)
-REFERENCES status(status_id)
+ADD FOREIGN KEY(author_name)
+REFERENCES authors(author_name)
 ON DELETE SET NULL;
 """
 create_takestitles_table = """
@@ -141,79 +137,41 @@ CREATE TABLE take_titles (
 );
 """
 
-pop_title="""
-INSERT INTO title VALUES
-(1, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(2, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(3, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(4, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(5, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(6, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(7, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(8, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(9, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(10, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(11, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(12, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(13, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(14, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status),
-(15, title_name, jp_title, genre_type, abstract_title, publish_comp(editora), released_chaps, author_name, designer_name, read_chaps, last_down_date, kindle, status);
+pop_titles="""
+INSERT INTO titles VALUES
+(1, 'title_name', 'jp_title', 'genre_type', 'bstract_title', 'publish_comp(editora)', 'released_chaps', 'author_name', 'designer_name', 'read_chaps', 'last_down_date', 'kindle', 'status'),
+(2, 'title_name', 'jp_title', 'genre_type', 'bstract_title', 'publish_comp(editora)', 'released_chaps', 'author_name', 'designer_name', 'read_chaps', 'last_down_date', 'kindle', 'status'),
+(3, 'title_name', 'jp_title', 'genre_type', 'bstract_title', 'publish_comp(editora)', 'released_chaps', 'author_name', 'designer_name', 'read_chaps', 'last_down_date', 'kindle', 'status');
 """
 
-pop_author="""
-INSERTE INTO author VALUES
-(1001, authors_name),
-(1002, authors_name),
-(1003, authors_name),
-(1004, authors_name),
-(1005, authors_name),
-(1006, authors_name),
-(1007, authors_name),
-(1008, authors_name),
-(1009, authors_name),
-(1010, authors_name),   
-(1011, authors_name),
-(1012, authors_name),
-(1013, authors_name),
-(1014, authors_name),
-(1015, authors_name);
+pop_authors="""
+INSERT INTO authors VALUES
+(1001, 'authors_name'),
+(1014, 'authors_name'),
+(1015, 'authors_name');
 """
 
-pop_designer="""
-(2001, designer_name),
-(2002, designer_name),
-(2003, designer_name),
-(2004, designer_name),
-(2005, designer_name),
-(2006, designer_name),
-(2007, designer_name),
-(2008, designer_name),
-(2009, designer_name),
-(2010, designer_name),
-(2011, designer_name),
-(20012, designer_name),
-(2013, designer_name),
-(2014, designer_name),
-(2015, designer_name);
-""" 
+pop_designers="""
+INSERT INTO designers VALUES
+(2001, 'designer_name'),
+(2002, 'designer_name'),
+(2003, 'designer_name');
 
-pop_gere="""  
-(3001, type_genre, genre_description),
-(3002, type_genre, genre_description),
-(3003, type_genre, genre_description),
-(3004, type_genre, genre_description),
-(3005, type_genre, genre_description),
-(3006, type_genre, genre_description),
-(3007, type_genre, genre_description),
-(3008, type_genre, genre_description),
-(3009, type_genre, genre_description),
-(3010, type_genre, genre_description),
+"""
+
+pop_genres="""  
+INSERT INTO genres VALUES
+(3001, 'type_genre', 'genre_description'),
+(3002, 'type_genre', 'genre_description'),
+(3003, 'type_genre', 'genre_description'),
+(3004, 'type_genre', 'genre_description');
 """
 
 pop_status="""
-(4001, 'Não lido')
-(4002, 'Em leitura')
-(4003, 'Concluído')
+INSERT INTO status VALUES
+(4001, 'Não lido'),
+(4002, 'Em leitura'),
+(4003, 'Concluído');
 """
 
 pop_taketitles="""
@@ -234,25 +192,35 @@ INSERT INTO take_titles VALUES
 (14,1014,2014,3014,4014),
 (15,1015,2015,3015,4015),
 """
+
 pw= 'Pyth0n&SQLP@ss'
-#connection = create_db_connection('localhost', 'root', pw, 'lista_de_mangás')
 
-#create_database_query = "CREATE DATABASE lista_de_mangás"
+#criar conexão com o MySQL
+#connection = create_server_connection("localhost","root",pw)
 
+#Ceiar banco de dados lista_de_mangas
+#create_database_query = "CREATE DATABASE lista_de_mangas"
+
+#Acessa MySQL e cria lista_de _mangas no MySQL
 #create_database(connection,create_database_query)
 
-#execute_query(connection,create_titles_table)
-#execute_query(connection,create_authors_table)
-#execute_query(connection,create_designers_table)
-#execute_query(connection,create_genres_table)
+connection = create_db_connection('localhost', 'root', pw, 'lista_de_mangas')
 
-#execute_query(connection, alter_titles)
-#execute_query(connection, create_takestitle_table)
+#Criar tabelas
+# execute_query(connection,create_titles_table)
+# execute_query(connection,create_authors_table)
+# execute_query(connection,create_designers_table)
+# execute_query(connection,create_genres_table)
+#execute_query(connection,create_status_table)
 
-#execute_query(connection, pop_tiles)
-#execute_query(connection, pop_authors)
-#execute_query(connection, pop_designers)
-#execute_query(connection, pop_genres)
+# execute_query(connection, alter_titles)
+# execute_query(connection, create_takestitle_table)
+
+#execute_query(connection, pop_titles)
+# execute_query(connection, pop_authors)
+# execute_query(connection, pop_designers)
+# execute_query(connection, pop_genres)
+execute_query(connection, pop_status)
 
 #Leitura de dados
 
@@ -269,8 +237,8 @@ def ready_query(connection, query):
         return result
     except Error as err:
         print(f'Error: {err}')
-    
-#Selecionar toda a tabela titles 
+
+#Selecionar toda a tabela titles
 q1 = """
 SELECT *
 FROM titles;
@@ -297,7 +265,7 @@ from_db = []
 for result in results:
     result = list(result)
     from_db.append(result)
-    
+
 print(from_db)
 
 ##Formatar resultado em um DataFrame do Pandas
