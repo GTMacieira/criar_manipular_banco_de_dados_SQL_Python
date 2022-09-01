@@ -1,3 +1,6 @@
+import mysql.connector
+from mysql.connector import Error
+
 #Função que para conectar no MySQL Server
 def create_server_connection(host_name, user_name, user_password):
     #Encerra qualquer conexão
