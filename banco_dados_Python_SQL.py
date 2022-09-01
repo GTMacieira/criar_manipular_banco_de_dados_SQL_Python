@@ -5,69 +5,13 @@
 #Biblioteca pandas
 #pip install pandas
 
+from Functions import *
+
 #importar o mysql.connector e o pandas para o projeto, a função Error foi importada separada para fácil acesso
 from unittest import result
 import mysql.connector
 from mysql.connector import Error
 import pandas as pd
-
-#Função que para conectar no MySQL Server
-def create_server_connection(host_name, user_name, user_password):
-    #Encerra qualquer conexão
-    connection = None
-    #Tenta criar a conxão
-    try:
-        connection=mysql.connector.connect(
-            host=host_name,
-            port=3306,
-            user=user_name,
-            #passwd=user_password
-        )
-        print("MySQL Dtabase connection successful")
-    #Texto caso não consiga conectar
-    except Error as err:
-        print(f"Error: {err}")
-    return connection
-
-
-#Função que recebe dois argumentos e executa uma consulta no servidor através da conexão
-def create_database(connection, query):
-    cursor = connection.cursor()
-    #tentar criar banco de dados
-    try:
-        cursor.execute(query)
-        print("Dtabase created succrssfully")
-    #Texto caso não consiga
-    except Error as err:
-        print(f'Error: {err}')
-
-#conectar diretamente em um banco de dados especifico
-def create_db_connection(host_name,user_name,User_password, db_name):
-    connection = None
-    try:
-        connection = mysql.connector.connect(
-            host = host_name,
-            port=3306,
-            user = user_name,
-            #passwd = user_password,
-            database = db_name
-        )
-        print("MySQL Database connection successful")
-    except Error as err:
-        print(f'Error: {err}')
-    return connection
-
-#garante que os comandao detalhados na consulta SQL sajam implementados
-def execute_query(connection,query):
-    cursor=connection.cursor()
-    try:
-        cursor.execute(query)
-        connection.commit()
-        print('Query successful')
-    except Error as err:
-        print(f'Error: {err}')
-
-
 create_titles_table = """
 CREATE TABLE titles (
     title_id INT PRIMARY KEY,
@@ -196,7 +140,7 @@ INSERT INTO take_titles VALUES
 pw= 'Pyth0n&SQLP@ss'
 
 #criar conexão com o MySQL
-#connection = create_server_connection("localhost","root",pw)
+connection =create_server_connection("localhost","root",pw)
 
 #Ceiar banco de dados lista_de_mangas
 #create_database_query = "CREATE DATABASE lista_de_mangas"
@@ -204,7 +148,7 @@ pw= 'Pyth0n&SQLP@ss'
 #Acessa MySQL e cria lista_de _mangas no MySQL
 #create_database(connection,create_database_query)
 
-connection = create_db_connection('localhost', 'root', pw, 'lista_de_mangas')
+#connection = create_db_connection('localhost', 'root', pw, 'lista_de_mangas')
 
 #Criar tabelas
 # execute_query(connection,create_titles_table)
@@ -220,7 +164,7 @@ connection = create_db_connection('localhost', 'root', pw, 'lista_de_mangas')
 # execute_query(connection, pop_authors)
 # execute_query(connection, pop_designers)
 # execute_query(connection, pop_genres)
-execute_query(connection, pop_status)
+#execute_query(connection, pop_status)
 
 #Leitura de dados
 
